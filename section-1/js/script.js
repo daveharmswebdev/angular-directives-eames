@@ -29,15 +29,56 @@ angular.module('app').directive('userInfoCard', function() {
         templateUrl: 'userInfoCard.html',
         restrict: 'E',
         scope: {
-            user: '='
+            user: '=',
+            initialCollapsed: '@collapsed'
         },
         controller: function($scope) {
-            $scope.collapsed = false;
+            $scope.collapsed = ($scope.initialCollapsed === 'true');
             $scope.knightMe = function(user) {
                 user.rank = "knight";
             }
             $scope.collapse = function() {
                 $scope.collapsed = !$scope.collapsed;
+            },
+            $scope.removeFriend = function (friend) {
+                var idx = $scope.user.friends.indexOf(friend);
+                if (idx > -1) {
+                    $scope.user.friends.splice(idx, 1);
+                }
+            }
+        }
+    }
+})
+
+angular.module('app').directive('removeFriend', function() {
+    return {
+        restrict: 'E',
+        scope: true,
+        template: `
+            <span
+                class="glyphicon glyphicon-remove"
+                style="cursor:pointer"
+                ng-click="startRemove()"
+                ng-hide="remvoing"
+            ></span>
+            <span ng-show="removing">
+                <button class="btn btn-xs btn-success" ng-click="confirmRemove()">Remove</button>
+                <button class="btn btn-xs btn-danger" ng-click="cancelRemove()">Never Mind</button>
+            </span>
+        `,
+        scope: {
+            notifyParent: '&method'
+        },
+        controller: function($scope) {
+            $scope.removing = false;
+            $scope.startRemove = function () {
+                $scope.removing = true;
+            },
+            $scope.cancelRemove = function () {
+                $scope.removing = false;
+            },
+            $scope.confirmRemove = function () {
+                $scope.notifyParent();
             }
         }
     }
@@ -52,7 +93,7 @@ angular.module('app').directive('address', function() {
             $scope.collapsed = false,
             $scope.collapseAddress = function() {
                 $scope.collapsed = true;
-            }
+            },
             $scope.expandAddress = function() {
                 $scope.collapsed = false;
             }
