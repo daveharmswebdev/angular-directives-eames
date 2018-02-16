@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Directive's Course</title>
+    <link rel="stylesheet" href="lib/bootstrap.min.css">
+    <script src="lib/jquery.js"></script>
+    <script src="lib/angular.js"></script>
+    <script src="script.js"></script>
+</head>
+<body ng-controller="mainCtrl" class="container" style="padding-top: 30px">
+    <video id="vid" 
+        spacebar-support 
+        controls preload="none"  
+        poster="http://media.w3.org/2010/05/sintel/poster.png"
+        event-pause="handlePause(evt)">
+        <source src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4"></source>
+        <source src="http://media.w3.org/2010/05/sintel/trailer.webm5" type="video/webm"></source>
+        <source src="http://media.w3.org/2010/05/sintel/trailer.ogv" type="video/ogg"></source>
+    </video>
+    <p ng-repeat="message in messages">{{message.text}}</p>
+</body>
+</html>
